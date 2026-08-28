@@ -1,0 +1,15 @@
+spring.application.name=flight-booking
+
+spring.ai.model.chat=deepseek
+spring.ai.model.embedding=dashscope
+
+spring.ai.deepseek.api-key=${DEEPSEEK_API_KEY}
+spring.ai.deepseek.chat.base-url=https://api.deepseek.com
+spring.ai.deepseek.chat.model=deepseek-v4-flash
+
+spring.ai.dashscope.api-key=${DASHSCOPE_API_KEY}
+spring.ai.dashscope.chat.enabled=false
+spring.ai.dashscope.embedding.enabled=true
+spring.ai.dashscope.embedding.options.model=text-embedding-v4
+
+server.port=8081
