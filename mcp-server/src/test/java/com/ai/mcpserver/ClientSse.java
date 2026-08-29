@@ -16,6 +16,7 @@
 package com.ai.mcpserver;
 
 import io.modelcontextprotocol.client.transport.WebFluxSseClientTransport;
+import io.modelcontextprotocol.json.McpJsonMapper;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -25,7 +26,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class ClientSse {
 
     public static void main(String[] args) {
-        var transport = new WebFluxSseClientTransport(WebClient.builder().baseUrl("http://localhost:8088"));
+        var transport = new WebFluxSseClientTransport(WebClient.builder().baseUrl("http://localhost:8088"),
+                McpJsonMapper.getDefault());
         new SampleClient(transport).run();
     }
 

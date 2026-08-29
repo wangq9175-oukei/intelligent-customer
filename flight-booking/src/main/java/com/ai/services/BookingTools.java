@@ -29,9 +29,6 @@ public class BookingTools {
     }
 
 
-
-
-
     public record BookingDetailsRequest(String bookingNumber, String name) {
     }
 
@@ -74,6 +71,37 @@ public class BookingTools {
         return "";
     }
 
+    @Tool(description = "修改机票预定的出发地或目的地。仅用于改签，不会取消原预订，也不需要重新预订。")
+    String changeBooking(@ToolParam(description = "预定号") String bookingNumber,
+                         @ToolParam(description = "姓名") String name,
+                         @ToolParam(description = "新的出发地") String from,
+                         @ToolParam(description = "新的目的地") String to) {
+        if (from == null || to == null) {
+            return "请指定新的出发地或目的地";
+        }
+
+        BookingDetails booking = flightBookingService.getBookingDetails(bookingNumber, name);
+
+        if (from.equals(booking.from()) && to.equals(booking.to())) {
+            return "请指定新的出发地或目的地";
+        }
+        if (booking.date().isBefore(LocalDate.now().plusDays(2))) {
+            return "改签失败，改签日期不能早于当前日期2天。";
+        }
+        if (booking.bookingStatus() != BookingStatus.CONFIRMED) {
+            return "改签失败，请等待航班开始后再进行改签。";
+        }
+        if (!flightBookingService.checkAirportCode( from)) {
+            return "出发地 " + from + " 不存在";
+        }
+        if (!flightBookingService.checkAirportCode( to)) {
+            return "目的地 " + to + " 不存在";
+        }
+
+        flightBookingService.changeBooking(bookingNumber, name, booking.date().toString(), from, to);
+        return "预订 " + bookingNumber + " 已改签为 " + from + "→" + to + "，原预订仍然有效。";
+    }
+
     public record CancelBookingRequest(@ToolParam(description = "预定号")
                                        String bookingNumber,
                                        @ToolParam(description = "姓名")
@@ -99,6 +127,16 @@ public class BookingTools {
     @Bean
     @Description("修改机票预定日期")
     public Function<ChangeBookingDatesRequest, String> changeBooking() {
+        return request -> {
+            flightBookingService.changeBooking(request.bookingNumber(), request.name(), request.date(), request.from(),
+                    request.to());
+            return "";
+        };
+    }
+
+    @Bean
+    @Description("修改目的地或出发地")
+    public Function<ChangeBookingDatesRequest, String> changeBookingFromTo() {
         return request -> {
             flightBookingService.changeBooking(request.bookingNumber(), request.name(), request.date(), request.from(),
                     request.to());

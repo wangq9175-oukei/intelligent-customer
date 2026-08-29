@@ -1,34 +1,30 @@
 {
     "mcpServers": {
         "baidu-map": {
-            "command": "cmd",
+            "command": "npx",
             "args": [
-                "/c",
-                "npx",
                 "-y",
                 "@baidumap/mcp-server-baidu-map"
             ],
             "env": {
-                "BAIDU_MAP_API_KEY": ""
+                "BAIDU_MAP_API_KEY": "bmmTrxhSARx3SWaivEHQkWBW5DlLa23i"
             }
         },
         "filesystem": {
-            "command": "cmd",
+            "command": "npx",
             "args": [
-                "/c",
-                "npx",
                 "-y",
                 "@modelcontextprotocol/server-filesystem",
-                "C:/Users/tuling/Desktop"
+                "/Users/wangqing/Desktop"
             ]
         },
         "mcp-server-weather": {
-            "command": "java",
+            "command": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home/bin/java",
             "args": [
                 "-Dspring.ai.mcp.server.stdio=true",
-                "-Dlogging.pattern.console=",
+                "-Dlogging.level.root=OFF",
                 "-jar",
-                "D:\\ideaworkspace\\git_pull\\tuling-flight-booking_all\\mcp-stdio-server\\target\\mcp-stdio-server-xs-1.0.jar"
+                "/Users/wangqing/IdeaProjects/intelligent-customer/mcp-stdio-server/target/mcp-stdio-server-1.0.jar"
             ]
         }
     }

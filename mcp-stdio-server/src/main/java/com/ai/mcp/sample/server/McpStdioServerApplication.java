@@ -25,10 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class McpServerApplication {
+public class McpStdioServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(McpServerApplication.class, args);
+        SpringApplication.run(McpStdioServerApplication.class, args);
     }
 
     @Bean

@@ -6,6 +6,7 @@ import com.ai.data.BookingClass;
 import com.ai.data.BookingData;
 import com.ai.data.BookingStatus;
 import com.ai.data.Customer;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import com.ai.services.BookingTools.BookingDetails;
 
@@ -24,10 +25,9 @@ public class FlightBookingService {
         initDemoData();
     }
 
-    private void initDemoData() {
+    public void initDemoData() {
         List<String> names = List.of("徐庶", "诸葛", "百里", "楼兰", "庄周");
-        List<String> airportCodes = List.of("北京", "上海", "广州", "深圳", "杭州", "南京", "青岛", "成都", "武汉", "西安", "重庆", "大连",
-                "天津");
+        List<String> airportCodes = getAirportCodes();
         Random random = new Random();
 
         var customers = new ArrayList<Customer>();
@@ -54,6 +54,16 @@ public class FlightBookingService {
         // Reset the database on each start
         db.setCustomers(customers);
         db.setBookings(bookings);
+    }
+
+    public Boolean checkAirportCode(String airportCode) {
+        return getAirportCodes().contains(airportCode);
+    }
+
+    private List<String> getAirportCodes() {
+        List<String> airportCodes = List.of("北京", "上海", "广州", "深圳", "杭州", "南京", "青岛", "成都", "武汉", "西安", "重庆", "大连",
+                "天津");
+        return airportCodes;
     }
 
     // 获取所有已预订航班

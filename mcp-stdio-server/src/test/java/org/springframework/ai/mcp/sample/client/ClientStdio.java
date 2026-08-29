@@ -20,6 +20,7 @@ import java.util.Map;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.transport.ServerParameters;
 import io.modelcontextprotocol.client.transport.StdioClientTransport;
+import io.modelcontextprotocol.json.McpJsonMapper;
 import io.modelcontextprotocol.spec.McpSchema.CallToolRequest;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import io.modelcontextprotocol.spec.McpSchema.ListToolsResult;
@@ -37,11 +38,13 @@ public class ClientStdio {
     public static void main(String[] args) {
 
         var stdioParams = ServerParameters.builder("java")
-                .args("-jar",
-                        "spring-ai-alibaba-mcp-example/starter-example/server/starter-stdio-server/target/mcp-stdio-server-exmaple-0.0.1-SNAPSHOT.jar")
+                .args("-Dspring.ai.mcp.server.stdio=true",
+                        "-Dlogging.level.root=OFF",
+                        "-jar",
+                        "target/mcp-stdio-server-xs-1.0.jar")
                 .build();
 
-        var transport = new StdioClientTransport(stdioParams);
+        var transport = new StdioClientTransport(stdioParams, McpJsonMapper.getDefault());
         var client = McpClient.sync(transport).build();
 
         client.initialize();

@@ -51,8 +51,10 @@ public class OpenAiController {
                        ##要求
                             1.在涉及增删改（除了查询）function-call前，必须等用户回复“确认”后再调用tool。
                             2.请讲中文。
-                       在提供有关预订或取消预订的信息之前，您必须始终从用户处获取以下信息：预订号、客户姓名。
-                       请讲中文。
+                            3.修改目的地或出发地属于改签：确认后必须调用“修改机票预定的出发地或目的地”工具，绝不能调用取消预订工具。
+                            4.询问改签确认前，必须说明改签会直接更新原预订，不会取消订单或要求重新预订；并说明起飞前 24 小时可改签，改签费为经济舱 50 美元、豪华经济舱 30 美元、商务舱免费。
+                            5.取消预定或退订时获取机票预定详细信息，根据最新状态回复
+                            6.在第一次提供有关预订或取消预订的信息之前，您必须始终从用户处获取以下信息：预订号、客户姓名。
                        今天的日期是 {current_date}.
                         在更改或退订function-call前，请先获取预订信息并且一定要等用户回复"确定"之后才进行更改或退订的function-call。 
                     """)
@@ -61,8 +63,8 @@ public class OpenAiController {
                         MessageChatMemoryAdvisor.builder(chatMemory).build(),
                         // 日志记录
                         new LoggingAdvisor())
-                // .defaultTools(bookingTools)
-                .defaultTools(toolsService)
+                .defaultTools(bookingTools)
+                //.defaultTools(toolsService)
                 .defaultToolCallbacks(mcpTools)
                  //.defaultFunctions("getBookingDetails", "changeBooking", "cancelBooking") // FUNCTION CALLING
                 .build();
